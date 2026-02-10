@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire Access</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    height:100vh;
+    background:linear-gradient(180deg,#050505,#120000);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#fff;
+    transition:0.3s;
+}
+
+body.red{
+    background:linear-gradient(180deg,#120000,#000);
+}
+
+.wrapper{
+    width:100%;
+    max-width:420px;
+    padding:30px;
+    text-align:center;
+}
+
+.title{
+    font-size:2.2rem;
+    font-weight:900;
+    letter-spacing:2px;
+    color:#ff0000;
+    text-shadow:0 0 20px red;
+}
+
+.subtitle{
+    font-size:0.85rem;
+    opacity:0.8;
+    margin:10px 0 30px;
+}
+
+/* ESTADO */
+.status{
+    border:1px solid red;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:20px;
+    font-size:0.85rem;
+    line-height:1.6;
+}
+
+.status span{
+    color:#00ff88;
+    font-weight:bold;
+}
+
+/* BOTON */
+.hack-btn{
+    display:block;
+    width:100%;
+    padding:18px;
+    background:linear-gradient(90deg,#ff0000,#ff6a00);
+    color:#fff;
+    font-size:1.1rem;
+    font-weight:bold;
+    text-decoration:none;
+    border-radius:12px;
+    box-shadow:0 0 30px red;
+    transition:0.3s;
+}
+
+.hack-btn:hover{
+    transform:scale(1.04);
+    box-shadow:0 0 45px orange;
+}
+
+.linkvertise{
+    font-size:0.7rem;
+    opacity:0.6;
+    margin-top:6px;
+}
+
+/* CHANGELOG */
+.changelog{
+    text-align:left;
+    font-size:0.75rem;
+    margin:25px 0;
+    opacity:0.85;
+}
+
+.changelog li{
+    margin-bottom:6px;
+}
+
+/* REDES */
+.socials{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:15px;
+}
+
+.socials a{
+    color:#fff;
+    text-decoration:none;
+    font-size:0.8rem;
+    padding:8px 14px;
+    border:1px solid red;
+    border-radius:8px;
+    transition:0.3s;
+}
+
+.socials a:hover{
+    background:red;
+    box-shadow:0 0 15px red;
+}
+
+/* SWITCH */
+.switch{
+    margin-top:25px;
+    font-size:0.7rem;
+    cursor:pointer;
+    opacity:0.7;
+}
+
+/* FOOTER */
+.footer{
+    margin-top:15px;
+    font-size:0.65rem;
+    opacity:0.5;
+}
+
+@media(max-width:480px){
+    .title{font-size:1.8rem;}
+}
+
+/* MENU HAMBURGUESA */
+.hamburger {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 1000;
+    background: none;
+    border: none;
+    color: white;
+    text-shadow: 0 0 10px red;
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Oculto por defecto */
+    width: 250px;
+    height: auto;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    border-right: 2px solid red;
+    border-bottom: 2px solid red;
+    border-bottom-right-radius: 20px;
+    transition: 0.4s;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    padding-bottom: 30px;
+    box-shadow: 5px 0 15px rgba(255, 0, 0, 0.2);
+}
+
+.side-menu.active {
+    left: 0;
+}
+
+.menu-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid red;
+    margin-bottom: 10px;
+    object-fit: cover;
+    background: #333; /* Fondo por si no hay imagen */
+}
+
+.menu-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.menu-link {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border: 1px solid red;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-size: 0.9rem;
+    text-align: center;
+    width: 80%;
+}
+
+.menu-link:hover {
+    background: red;
+    box-shadow: 0 0 10px red;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MENU LATERAL -->
+<button class="hamburger" onclick="toggleMenu()">☰</button>
+
+<div class="side-menu" id="sideMenu">
+    <div class="close-btn" onclick="toggleMenu()">&times;</div>
+    
+    <!-- LOGO Y NOMBRE -->
+    <!-- Asegúrate de tener una imagen llamada logo.png o cambia el nombre aquí -->
+    <img src="Parche.jpeg" alt="Logo" class="menu-logo">
+    <div class="menu-name">El Parche YT</div>
+
+    <!-- ENLACE TIENDA -->
+    <!-- Cambia el href="#" por el link real de tu tienda -->
+    <a href="https://tienda10.github.io/Tienda-De-Juegos-Gratis/" class="menu-link">
+        🎮 Tienda de juegos gratis
+    </a>
+</div>
+
+<div class="wrapper">
+
+    <div class="title">FREE FIRE PANELES</div>
+    <div class="subtitle">Acceso exclusivo</div>
+
+    <!-- ESTADO -->
+    <div class="status">
+        🟢 Estado: <span>ACTIVO</span><br>
+    
+    </div>
+
+    <!-- BOTON LINKVERTISE -->
+    <a class="hack-btn" href="https://link-center.net/3400650/aponBwy105eG" target="_blank">
+        🔥  DESCARGAR PANEL 🔥
+    </a>
+    <div class="linkvertise">
+        Acceso protegido por Linkvertise
+    </div>
+
+    <!-- CHANGELOG -->
+    <ul class="changelog">
+        <li>✔ Fix antiban</li>
+        <li>✔ Mejor estabilidad</li>
+        <li>✔ Compatible con versión actual</li>
+    </ul>
+
+    <!-- REDES -->
+    <div class="socials">
+        <a href="https://youtube.com/@gamenexo11?si=ihC_JyZQHESbKXt7">YouTube</a>
+        <a href="https://whatsapp.com/channel/0029VbBd5qbIiRovkgdMWf0L">WhatsApp</a>
+        <a href="https://www.tiktok.com/@el_parche_yt0?_r=1&_t=ZS-93ocfQ27VuW">TikTok</a>
+    </div>
+
+    <!-- SWITCH -->
+    <div class="switch" onclick="toggleRed()">
+        🌗 Cambiar modo
+    </div>
+
+    <div class="footer">
+        Uso bajo responsabilidad del usuario
+    </div>
+
+    <!-- AUDIOS -->
+    <audio id="audio-download" src="Descarga.mp3"></audio>
+
+</div>
+
+<script>
+function toggleRed(){
+    document.body.classList.toggle("red");
+}
+
+/* TEXTO DINÁMICO */
+const lastUpdate = new Date("2026-02-09T18:00:00");
+
+function updateTime(){
+    const now = new Date();
+    const diffMs = now - lastUpdate;
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+    let text;
+    if(diffHours < 1){
+        text = "Actualizado hace menos de 1 hora";
+    } else if(diffHours < 24){
+        text = `Actualizado hace ${diffHours} horas`;
+    } else {
+        const days = Math.floor(diffHours / 24);
+        text = `Actualizado hace ${days} días`;
+    }
+
+    document.getElementById("updateText").textContent = text;
+}
+
+updateTime();
+
+/* LOGICA DE AUDIOS */
+const downloadAudio = document.getElementById('audio-download');
+const hackBtn = document.querySelector('.hack-btn');
+
+// Audio: Descarga y Redirección
+hackBtn.addEventListener('click', (e) => {
+    e.preventDefault(); // Evita ir al link inmediatamente
+
+    downloadAudio.play();
+    downloadAudio.onended = () => {
+        window.location.href = hackBtn.href; // Redirige al terminar el audio
+    };
+});
+
+/* MENU FUNCTION */
+function toggleMenu() {
+    document.getElementById('sideMenu').classList.toggle('active');
+}
+</script>
+
+</body>
+</html>
