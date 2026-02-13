@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Fire Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;900&display=swap" rel="stylesheet">
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: 'Rajdhani', sans-serif;
 }
 
 body{
@@ -21,25 +22,49 @@ body{
     align-items:center;
     color:#fff;
     transition:0.3s;
+    overflow: hidden; /* Evita barras de desplazamiento por las partículas */
+}
+
+#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
 body.red{
     background:linear-gradient(180deg,#120000,#000);
 }
 
+body.success-bg{
+    background:linear-gradient(180deg,#002200,#000);
+}
+
 .wrapper{
     width:100%;
-    max-width:420px;
-    padding:30px;
+    max-width:450px;
+    padding:40px 30px;
     text-align:center;
+    position: relative;
+    z-index: 10;
+    background: rgba(10, 5, 5, 0.65);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 50, 50, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
 }
 
 .title{
-    font-size:2.2rem;
+    font-size:2.8rem;
     font-weight:900;
-    letter-spacing:2px;
-    color:#ff0000;
-    text-shadow:0 0 20px red;
+    letter-spacing:1px;
+    background: linear-gradient(to bottom, #ffffff, #ff4444);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6));
+    margin-bottom: 5px;
 }
 
 .subtitle{
@@ -48,39 +73,140 @@ body.red{
     margin:10px 0 30px;
 }
 
-/* ESTADO */
-.status{
-    border:1px solid red;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:20px;
-    font-size:0.85rem;
-    line-height:1.6;
+/* PASOS */
+.step-btn{
+    display:block;
+    width:100%;
+    padding:16px;
+    margin-bottom:15px;
+    background: rgba(255, 0, 0, 0.05);
+    color:#fff;
+    text-decoration:none;
+    border: 1px solid rgba(255, 50, 50, 0.4);
+    border-left: 4px solid #ff0000;
+    border-radius: 8px;
+    font-size:1.1rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    transition:0.3s;
+    cursor:pointer;
+    position: relative;
+    overflow: hidden;
+}
+.step-btn:hover{
+    background: rgba(255, 0, 0, 0.2);
+    box-shadow:0 0 20px rgba(255, 0, 0, 0.4);
+    transform:translateY(-3px);
+    border-color: #ff0000;
+}
+.step-btn.completed{
+    background: rgba(0, 255, 136, 0.1);
+    border-color:#00ff88;
+    border-left-color: #00ff88;
+    color:#00ff88;
+    pointer-events:none;
+    animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.disabled{
+    opacity:0.5;
+    background: rgba(0,0,0,0.3);
+    border-color:#444;
+    border-left-color: #444;
+    pointer-events:none;
+    box-shadow:none;
 }
 
-.status span{
-    color:#00ff88;
-    font-weight:bold;
+/* ICONOS SVG */
+.btn-icon {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    vertical-align: middle;
+    margin-right: 10px;
+    position: relative;
+    top: -2px;
+}
+
+/* ANIMACIONES NUEVAS */
+@keyframes verifyPulse {
+    0% { box-shadow: 0 0 5px orange; border-color: orange; transform: scale(0.98); }
+    50% { box-shadow: 0 0 15px orange; border-color: #ffcc00; transform: scale(1); }
+    100% { box-shadow: 0 0 5px orange; border-color: orange; transform: scale(0.98); }
+}
+
+@keyframes successPop {
+    0% { transform: scale(0.8); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+@keyframes unlockShake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(-2deg); }
+    50% { transform: translateX(5px) rotate(2deg); }
+    75% { transform: translateX(-5px) rotate(-2deg); }
+    100% { transform: translateX(0); }
+}
+
+/* BARRA DE PROGRESO */
+.progress-container {
+    width: 100%;
+    background: #1a0000;
+    border: 1px solid #ff3333;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    display: none; /* Oculto por defecto */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.progress-bar {
+    height: 22px;
+    width: 0%;
+    background: linear-gradient(90deg, #ff0000, #ffae00);
+    text-align: center;
+    line-height: 22px;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    transition: width 0.05s linear;
+    white-space: nowrap;
+    text-shadow: 0 0 2px black;
 }
 
 /* BOTON */
 .hack-btn{
     display:block;
     width:100%;
-    padding:18px;
-    background:linear-gradient(90deg,#ff0000,#ff6a00);
+    padding:22px;
+    background:linear-gradient(135deg, #ff0000 0%, #990000 100%);
     color:#fff;
-    font-size:1.1rem;
-    font-weight:bold;
+    font-size:1.4rem;
+    font-weight:900;
     text-decoration:none;
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius:12px;
-    box-shadow:0 0 30px red;
+    box-shadow:0 0 20px rgba(255, 0, 0, 0.6);
     transition:0.3s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 .hack-btn:hover{
-    transform:scale(1.04);
-    box-shadow:0 0 45px orange;
+    transform:translateY(-2px);
+    box-shadow:0 0 40px rgba(255, 0, 0, 0.8);
+    filter: brightness(1.2);
+}
+
+.hack-btn.unlocked {
+    animation: unlockShake 0.8s ease-in-out;
+    background: linear-gradient(90deg, #00b300, #00ff00);
+    box-shadow: 0 0 40px #00ff00;
+}
+
+.verifying {
+    animation: verifyPulse 1s infinite;
 }
 
 .linkvertise{
@@ -89,16 +215,104 @@ body.red{
     margin-top:6px;
 }
 
-/* CHANGELOG */
-.changelog{
-    text-align:left;
-    font-size:0.75rem;
-    margin:25px 0;
-    opacity:0.85;
+/* BOTON BYPASS */
+.bypass-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #ff8800, #ff4400);
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 200, 0, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255, 100, 0, 0.3);
+    transition: 0.3s;
+    animation: verifyPulse 2s infinite;
+}
+.bypass-btn:hover {
+    background: linear-gradient(90deg, #ff9900, #ff5500);
+    box-shadow: 0 0 20px rgba(255, 100, 0, 0.6);
+    filter: brightness(1.2);
 }
 
-.changelog li{
-    margin-bottom:6px;
+/* CHANGELOG */
+.changelog-container {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 25px 0;
+    text-align: left;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.changelog-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: #ff3333;
+}
+
+.changelog-header {
+    font-size: 1rem;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-shadow: 0 0 5px red;
+}
+
+.changelog-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.changelog-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #eee;
+    margin-bottom: 8px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    transition: 0.3s;
+    border-left: 1px solid transparent;
+}
+
+.changelog-item:last-child {
+    margin-bottom: 0;
+}
+
+.changelog-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(5px);
+    border-left: 3px solid #00ff88;
+}
+
+.check-icon {
+    color: #00ff88;
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    filter: drop-shadow(0 0 4px #00ff88);
 }
 
 /* REDES */
@@ -112,16 +326,20 @@ body.red{
 .socials a{
     color:#fff;
     text-decoration:none;
-    font-size:0.8rem;
-    padding:8px 14px;
-    border:1px solid red;
-    border-radius:8px;
+    font-size:0.9rem;
+    padding:10px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border:1px solid rgba(255, 255, 255, 0.1);
+    border-radius:6px;
     transition:0.3s;
+    font-weight: 600;
 }
 
 .socials a:hover{
-    background:red;
-    box-shadow:0 0 15px red;
+    background:#ff0000;
+    box-shadow:0 0 20px #ff0000;
+    border-color: #ff0000;
+    transform: translateY(-2px);
 }
 
 /* SWITCH */
@@ -225,10 +443,41 @@ body.red{
     cursor: pointer;
     color: #fff;
 }
+
+/* TOAST NOTIFICATIONS (Mensajes emergentes) */
+.toast-container {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 350px;
+}
+
+.toast {
+    background: rgba(20, 20, 20, 0.95);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #00ff88;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    font-size: 0.9rem;
+    animation: slideUp 0.3s ease-out forwards;
+    backdrop-filter: blur(5px);
+}
 </style>
 </head>
 
 <body>
+<!-- FONDO DE PARTICULAS -->
+<canvas id="particles"></canvas>
+
+<!-- CONTENEDOR DE NOTIFICACIONES -->
+<div class="toast-container" id="toastContainer"></div>
 
 <!-- MENU LATERAL -->
 <button class="hamburger" onclick="toggleMenu()">☰</button>
@@ -250,29 +499,47 @@ body.red{
 
 <div class="wrapper">
 
-    <div class="title">FREE FIRE PANELES</div>
-    <div class="subtitle">Acceso exclusivo</div>
+    <div class="title" style="margin-top: 15px; margin-bottom: 30px;">FREE FIRE PANELES</div>
 
-    <!-- ESTADO -->
-    <div class="status">
-        🟢 Estado: <span>ACTIVO</span><br>
-    
+    <!-- INFO DISPOSITIVO -->
+    <div id="deviceInfo" style="font-size:0.75rem; color:#aaa; margin-bottom:15px; background:rgba(255,0,0,0.1); padding:5px 10px; border-radius:5px; display:inline-block; border:1px solid rgba(255,0,0,0.3);">📱 Escaneando dispositivo...</div>
+
+    <!-- USUARIOS ONLINE -->
+    <div style="font-size:0.75rem; color:#00ff88; margin-bottom:15px; margin-left:5px; background:rgba(0,255,136,0.1); padding:5px 10px; border-radius:5px; display:inline-block; border:1px solid rgba(0,255,136,0.3);">
+        🟢 Online: <b id="userCount">...</b>
+    </div>
+
+    <!-- PASOS DE VERIFICACIÓN -->
+    <a href="https://www.youtube.com/@el_parche_yt" target="_blank" class="step-btn" id="step1" onclick="unlockStep(1)">
+        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg> 1. Suscríbete al canal
+    </a>
+    <a href="https://youtu.be/4vMKVkPsQz8?si=Jc6CDWHoyr0t7oLi" target="_blank" class="step-btn disabled" id="step2" onclick="unlockStep(2)">
+        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 2.14-1.18l3.71-8.64c.06-.17.1-.36.1-.55V10z"/></svg> 2. Dale Like al video
+    </a>
+
+    <!-- BARRA DE PROGRESO -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar">0%</div>
     </div>
 
     <!-- BOTON LINKVERTISE -->
-    <a class="hack-btn" href="https://link-center.net/3400650/aponBwy105eG" target="_blank">
-        🔥  DESCARGAR PANEL 🔥
+    <a class="hack-btn disabled" id="downloadBtn" href="https://linkvertise.com/3400650/4cNqRqM9IniW?o=sharing" target="_blank">
+        <svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> COMPLETAR PASOS
     </a>
     <div class="linkvertise">
         Acceso protegido por Linkvertise
     </div>
 
     <!-- CHANGELOG -->
-    <ul class="changelog">
-        <li>✔ Fix antiban</li>
-        <li>✔ Mejor estabilidad</li>
-        <li>✔ Compatible con versión actual</li>
-    </ul>
+    <div class="changelog-container">
+        <div class="changelog-header">⚡ Descarga el bypass obligatorio</div>
+        <a href="https://linkvertise.com/3400650/A7esAmbU1KSW?o=sharing" class="bypass-btn">⚠️ Bypass Anti ban Obligatorio</a>
+        <ul class="changelog-list">
+            <li class="changelog-item"><svg class="check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg> Fix antiban</li>
+            <li class="changelog-item"><svg class="check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg> Mejor estabilidad</li>
+            <li class="changelog-item"><svg class="check-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg> Compatible con versión actual</li>
+        </ul>
+    </div>
 
     <!-- REDES -->
     <div class="socials">
@@ -296,32 +563,44 @@ body.red{
 </div>
 
 <script>
+/* DETECTAR DISPOSITIVO */
+const ua = navigator.userAgent;
+let device = "PC / Desconocido";
+if(/Android/i.test(ua)) device = "Android";
+else if(/iPhone|iPad|iPod/i.test(ua)) device = "iOS";
+document.getElementById('deviceInfo').innerHTML = `📱 Dispositivo: <b>${device}</b> detectado`;
+
+/* CONTADOR DE USUARIOS ONLINE */
+let currentUsers = Math.floor(Math.random() * (350 - 120) + 120); // Inicia entre 120 y 350
+const userCountDisplay = document.getElementById('userCount');
+
+function updateOnlineUsers() {
+    // Sube o baja un poco (simulación)
+    const change = Math.floor(Math.random() * 10) - 4; 
+    currentUsers += change;
+    userCountDisplay.innerText = currentUsers;
+    
+    // Se actualiza cada 2 a 5 segundos
+    setTimeout(updateOnlineUsers, Math.random() * 3000 + 2000);
+}
+updateOnlineUsers();
+
+/* SISTEMA DE TOASTS (Notificaciones) */
+function showToast(msg) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = msg;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
 function toggleRed(){
     document.body.classList.toggle("red");
 }
-
-/* TEXTO DINÁMICO */
-const lastUpdate = new Date("2026-02-09T18:00:00");
-
-function updateTime(){
-    const now = new Date();
-    const diffMs = now - lastUpdate;
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-
-    let text;
-    if(diffHours < 1){
-        text = "Actualizado hace menos de 1 hora";
-    } else if(diffHours < 24){
-        text = `Actualizado hace ${diffHours} horas`;
-    } else {
-        const days = Math.floor(diffHours / 24);
-        text = `Actualizado hace ${days} días`;
-    }
-
-    document.getElementById("updateText").textContent = text;
-}
-
-updateTime();
 
 /* LOGICA DE AUDIOS */
 const downloadAudio = document.getElementById('audio-download');
@@ -341,6 +620,160 @@ hackBtn.addEventListener('click', (e) => {
 function toggleMenu() {
     document.getElementById('sideMenu').classList.toggle('active');
 }
+
+/* LOGICA DE PASOS */
+let pendingStep = 0;
+
+// Definir iconos SVG para usar en JS
+const icons = {
+    check: '<svg class="btn-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',
+    time: '<svg class="btn-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>',
+    download: '<svg class="btn-icon" viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>',
+    lock: '<svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>'
+};
+
+function unlockStep(step){
+    if(step === 1){
+        const btn1 = document.getElementById('step1');
+        if(!btn1.classList.contains('completed')) {
+            pendingStep = 1;
+            showToast("ℹ Regresa aquí después de suscribirte");
+        }
+    } else if(step === 2){
+        const btn2 = document.getElementById('step2');
+        if(!btn2.classList.contains('completed')) {
+            pendingStep = 2;
+            showToast("ℹ Regresa aquí después de dar like");
+        }
+    }
+}
+
+// Detectar regreso a la pestaña
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && pendingStep > 0) {
+        startVerification(pendingStep);
+        pendingStep = 0;
+    }
+});
+
+function startVerification(step){
+    if(step === 1){
+        const btn1 = document.getElementById('step1');
+        const btn2 = document.getElementById('step2');
+        
+        if(btn1.classList.contains('completed') || btn1.innerHTML.includes("Verificando")) return;
+
+        let timeLeft = 5;
+        btn1.innerHTML = `${icons.time} Verificando... ${timeLeft}s`;
+        btn1.classList.add('verifying');
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            btn1.innerHTML = `${icons.time} Verificando... ${timeLeft}s`;
+            if(timeLeft <= 0){
+                clearInterval(timer);
+                btn1.classList.remove('verifying');
+                btn1.classList.add('completed');
+                btn1.innerHTML = `${icons.check} Suscrito`;
+                btn2.classList.remove('disabled');
+                showToast("✅ Paso 1 completado");
+            }
+        }, 1000);
+    } else if(step === 2){
+        const btn2 = document.getElementById('step2');
+        const dlBtn = document.getElementById('downloadBtn');
+        
+        if(btn2.classList.contains('completed') || btn2.innerHTML.includes("Verificando")) return;
+
+        let timeLeft = 5;
+        btn2.innerHTML = `${icons.time} Verificando... ${timeLeft}s`;
+        btn2.classList.add('verifying');
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            btn2.innerHTML = `${icons.time} Verificando... ${timeLeft}s`;
+            if(timeLeft <= 0){
+                clearInterval(timer);
+                btn2.classList.remove('verifying');
+                btn2.classList.add('completed');
+                btn2.innerHTML = `${icons.check} Likeado`;
+                
+                // INICIAR BARRA DE PROGRESO
+                const progContainer = document.getElementById('progressContainer');
+                const progBar = document.getElementById('progressBar');
+                progContainer.style.display = 'block';
+                
+                let width = 0;
+                const progInterval = setInterval(() => {
+                    width++;
+                    progBar.style.width = width + '%';
+                    
+                    if(width < 40) progBar.innerHTML = `Conectando servidor... ${width}%`;
+                    else if(width < 80) progBar.innerHTML = `Generando enlace... ${width}%`;
+                    else progBar.innerHTML = `Finalizando... ${width}%`;
+
+                    if(width >= 100){
+                        clearInterval(progInterval);
+                        setTimeout(() => {
+                            progContainer.style.display = 'none'; // Ocultar barra al finalizar
+                            dlBtn.classList.remove('disabled');
+                            dlBtn.classList.add('unlocked');
+                            dlBtn.innerHTML = `${icons.download} DESCARGAR PANEL`;
+                            document.body.classList.add('success-bg');
+                            matrixColor = "#00ff88"; // Cambiar matrix a verde al finalizar
+                            showToast("🔓 ¡Acceso concedido!");
+                        }, 500);
+                    }
+                }, 40); // Velocidad de carga (menor número = más rápido)
+            }
+        }, 1000);
+    }
+}
+
+/* PARTICULAS DE FONDO */
+/* EFECTO MATRIX RAIN */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const matrixChars = "EL PARCHE YT   EL PARCHE YT   0123456789";
+const matrix = matrixChars.split("");
+
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+
+const drops = [];
+for(let x = 0; x < columns; x++)
+    drops[x] = 1;
+
+let matrixColor = "#ff0000";
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = matrixColor;
+    ctx.font = fontSize + "px monospace";
+
+    for(let i = 0; i < drops.length; i++) {
+        const text = matrix[Math.floor(Math.random() * matrix.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+            drops[i] = 0;
+
+        drops[i]++;
+    }
+}
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+setInterval(drawMatrix, 40);
 </script>
 
 </body>
