@@ -45,7 +45,7 @@ body.success-bg{
 .wrapper{
     width:100%;
     max-width:450px;
-    padding:40px 30px;
+    padding:30px 20px; /* Padding base ajustado */
     text-align:center;
     position: relative;
     z-index: 10;
@@ -106,7 +106,8 @@ body.success-bg{
     border-left-color: #00ff88;
     color:#00ff88;
     pointer-events:none;
-    animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: successPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), successPulse 2s infinite 0.5s;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
 }
 .disabled{
     opacity:0.5;
@@ -133,6 +134,22 @@ body.success-bg{
     0% { box-shadow: 0 0 5px orange; border-color: orange; transform: scale(0.98); }
     50% { box-shadow: 0 0 15px orange; border-color: #ffcc00; transform: scale(1); }
     100% { box-shadow: 0 0 5px orange; border-color: orange; transform: scale(0.98); }
+}
+
+@keyframes successPulse {
+    0% { box-shadow: 0 0 5px #00ff88; border-color: #00ff88; transform: scale(0.98); }
+    50% { box-shadow: 0 0 15px #00ff88; border-color: #afffcf; transform: scale(1); }
+    100% { box-shadow: 0 0 5px #00ff88; border-color: #00ff88; transform: scale(0.98); }
+}
+
+@keyframes unlockedPulse {
+    0% { box-shadow: 0 0 5px #00ff00; border-color: #00ff00; transform: scale(0.98); }
+    50% { box-shadow: 0 0 20px #00ff00; border-color: #ccffcc; transform: scale(1); }
+    100% { box-shadow: 0 0 5px #00ff00; border-color: #00ff00; transform: scale(0.98); }
+}
+
+@keyframes slowBlink {
+    50% { filter: brightness(1.3); }
 }
 
 @keyframes successPop {
@@ -200,7 +217,7 @@ body.success-bg{
 }
 
 .hack-btn.unlocked {
-    animation: unlockShake 0.8s ease-in-out;
+    animation: unlockShake 0.8s ease-in-out, unlockedPulse 2s infinite 0.8s;
     background: linear-gradient(90deg, #00b300, #00ff00);
     box-shadow: 0 0 40px #00ff00;
 }
@@ -358,7 +375,21 @@ body.success-bg{
 }
 
 @media(max-width:480px){
-    .title{font-size:1.8rem;}
+    .wrapper {
+        padding: 25px 15px; /* Menos padding en móviles */
+        border: none; /* Quitar borde para más espacio */
+    }
+    .title{
+        font-size:2.2rem; /* Tamaño de título ajustado */
+    }
+    .step-btn {
+        padding: 15px;
+        font-size: 1rem;
+    }
+    .hack-btn { 
+        font-size: 1.2rem; 
+        padding: 18px; 
+    }
 }
 
 /* MENU HAMBURGUESA */
@@ -548,15 +579,6 @@ body.success-bg{
         <a href="https://www.tiktok.com/@el_parche_yt0?_r=1&_t=ZS-93ocfQ27VuW">TikTok</a>
     </div>
 
-    <!-- SWITCH -->
-    <div class="switch" onclick="toggleRed()">
-        🌗 Cambiar modo
-    </div>
-
-    <div class="footer">
-        Uso bajo responsabilidad del usuario
-    </div>
-
     <!-- AUDIOS -->
     <audio id="audio-download" src="Descarga.mp3"></audio>
 
@@ -566,8 +588,24 @@ body.success-bg{
 /* DETECTAR DISPOSITIVO */
 const ua = navigator.userAgent;
 let device = "PC / Desconocido";
-if(/Android/i.test(ua)) device = "Android";
-else if(/iPhone|iPad|iPod/i.test(ua)) device = "iOS";
+
+if (/iPhone/i.test(ua)) device = "iPhone";
+else if (/iPad/i.test(ua)) device = "iPad";
+else if (/Android/i.test(ua)) {
+    if (/Samsung|SM-|GT-/i.test(ua)) device = "Samsung";
+    else if (/Redmi|Mi |Xiaomi|POCO/i.test(ua)) device = "Xiaomi";
+    else if (/Huawei|Honor/i.test(ua)) device = "Huawei";
+    else if (/Moto|Motorola/i.test(ua)) device = "Motorola";
+    else if (/Pixel/i.test(ua)) device = "Google Pixel";
+    else if (/Oppo/i.test(ua)) device = "Oppo";
+    else if (/Vivo/i.test(ua)) device = "Vivo";
+    else if (/Realme/i.test(ua)) device = "Realme";
+    else if (/OnePlus/i.test(ua)) device = "OnePlus";
+    else if (/Infinix/i.test(ua)) device = "Infinix";
+    else device = "Android";
+}
+else if (/Windows/i.test(ua)) device = "PC Windows";
+
 document.getElementById('deviceInfo').innerHTML = `📱 Dispositivo: <b>${device}</b> detectado`;
 
 /* CONTADOR DE USUARIOS ONLINE */
